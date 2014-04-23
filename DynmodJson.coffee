@@ -225,10 +225,8 @@ toJsonUnstable:
     r = toJson x
     delete xx.x[vid] for xx in vis # Remove visit tokens
     r
-JsGraph:
-  dynmodPackageRegister.load 'JsGraph'
-GoodOl:
-  dynmodPackageRegister.load 'DynmodJsonOld'
+JsDigraph:
+  dynmodPackageRegister.load 'JsDigraph'
 DynmodPrinter:
   dynmodPackageRegister.load 'DynmodPrinter'
 DynmodCore:
@@ -249,7 +247,7 @@ toJson:
         if x? and (depth > 0) and (typeof x is "object") and x.pkgInfo?.version?
           return 0x39053
         return null
-      @JsGraph.checksumGeometry(x, { custom })
+      @JsDigraph.checksumGeometry(x, { custom })
     DebugPrinter = @DynmodCore.dynmod.modMixin.call { symbolicPackages: false }, @DynmodPrinter
     print = (x)=> DebugPrinter.print(x) + "\n"
     h1 = checksum x

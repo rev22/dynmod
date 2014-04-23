@@ -1,6 +1,6 @@
 pkgInfo:
-  description: "Basic methods for packages"
   version: "DynmodPackage 0.4.2"
+  description: "Basic methods for packages"
   copyright: "Copyright (c) 2014, Michele Bini"
   license: "MIT"
 Date: Date

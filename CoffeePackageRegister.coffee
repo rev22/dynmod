@@ -1,11 +1,12 @@
 module.exports =
   pkgInfo:
-    version: "CoffeePackageRegister 0.4.9"
-    description: "Package handling loading and saving of dynmod modules"
+    version: "CoffeePackageRegister 0.4.10"
+    description: "Loading and saving Dynmod modules"
     copyright: "Copyright (c) 2014 Michele Bini"
+    license: "MIT"
   modCompile:
     (options)@>
-      { dir, @coffeeOnly } = options if options?
+      { dir } = options if options?
       @dir = dir ?= "dynmod"
       @modExtend(@methods).modMixin fs: @require 'fs'
   pkgIncluded:
@@ -22,6 +23,7 @@ module.exports =
   NodejsLoader:
     dynmodPackageRegister.load 'NodejsLoader'
   Buffer: global.Buffer
+  dotCoffee: ".coffee"
   loadFile:
     (filename, options)@>
       fs = @fs ?= @require 'fs'
@@ -61,6 +63,7 @@ module.exports =
         # Incompatible loader
         x = fs.readFileSync(filename).toString()
         @CoffeeScript.eval x, { filename }
+  coffeeOnly: true
   bootstrap:
     (options)@>
       # Boostrap loading of package register for dynmod modules
@@ -80,7 +83,7 @@ module.exports =
         @global[x] ?= @require x
     
       loadRefcoffeePkg = (pkgName)=>
-        @loadFile "#{cDir}/#{pkgName}.refcoffee"
+        @loadFile "#{cDir}/#{pkgName}#{@dotCoffee}"
     
       pkg = loadRefcoffeePkg "DynmodPackage"
     
@@ -115,7 +118,7 @@ module.exports =
     
       # packageRegister = loadJsonPkg "SimpleDirectoryPackageRegister"
       # packageRegister = loadRefcoffeePkg "SimpleDirectoryPackageRegister"
-      if options.coffeeOnly
+      if @coffeeOnly
         packageRegister = @
       else
         packageRegister = loadRefcoffeePkg "CoffeeJsonPackageRegister"
@@ -147,8 +150,7 @@ module.exports =
         pkgs = null
         noInclusions = false
         fromJson = false
-        coffeeOnly = @coffeeOnly
-        { pkgs, noInclusions, jsonOnly, coffeeOnly } = options if options?
+        { pkgs, noInclusions, jsonOnly } = options if options?
         pkgs = @pkgs ?= { } unless pkgs?
         customImport = ({ t, d })=>
           return null unless t is "P"
@@ -163,12 +165,12 @@ module.exports =
         if jsonOnly
           j = @JSON.parse( @fs.readFileSync("#{@dir}/#{name}.json").toString() )
           m = @dynmodJson.fromJson j, { customImport }
-        else if coffeeOnly
-          filename = "#{@dir}/#{name}.refcoffee"
+        else if @coffeeOnly
+          filename = "#{@dir}/#{name}#{@dotCoffee}"
           m = @loadFile filename
         else
           # Load both
-          filename = "#{@dir}/#{name}.refcoffee"
+          filename = "#{@dir}/#{name}#{@dotCoffee}"
           mc = @loadFile filename
           filename = "#{@dir}/#{name}.json"
           if @fs.existsSync(filename)
@@ -274,11 +276,11 @@ module.exports =
         else
           return @dynmodPrinter.print(p) + "\n"
         # s2 = s2.replace(/\n[\ \t]+\n/g, "\n\n")
-        # @fs.writeFileSync "#{@dir}/#{name}.refcoffee"
+        # @fs.writeFileSync "#{@dir}/#{name}#{@dotCoffee}"
         # "#{s1}\n#{s2}\n"
     updateRefcoffeeSource:
       (name)@>
-        filename = "#{@dir}/#{name}.refcoffee"
+        filename = "#{@dir}/#{name}#{@dotCoffee}"
         source = @getRefcoffeeSource name
         if @fs.existsSync(filename)
           existingSourceCode = @fs.readFileSync(filename).toString()
@@ -296,7 +298,7 @@ module.exports =
         x.replace(/^module[.](exports)\ =\n/, "").replace(/[\ \n]+/g, " ").replace(/^[\ \t\n]+/, "").replace(/[\ \t\n]+$/, "").replace(/global[.]/g, "")
     testRefcoffeeSource:
       (name)@>
-        filename = "#{@dir}/#{name}.refcoffee"
+        filename = "#{@dir}/#{name}#{@dotCoffee}"
         source = @getRefcoffeeSource name
         if @fs.existsSync(filename)
           existingSourceCode = @fs.readFileSync(filename).toString()
