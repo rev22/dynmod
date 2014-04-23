@@ -255,58 +255,7 @@ toJson:
     h1 = checksum x
     r = @toJsonUnstable x, options
     unless h1 is checksum(@fromJson(r, options))
-      unless options?.nested
-            mmsg = ""
-            try
-              pprint = (x)-> mmsg+= print x
-              xx =
-                a:
-                  pkgInfo:
-                    version:
-                      "hi"
-              x = x.pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0]
-              x = dx x, /mod|r|fs|JSON|Date|Exc|Ame|Rec|Tes|Inclusions|Save|Name|Com|pkgInclude$/
-              pprint (k for k of x)
-              do(x,dx,dnx,pprint)@>
-                x = x.pkgDefinitions = x.pkgDefinitions.methods.has
-                # x = dx x, /load|save/
-                # pprint (k for k of x)
-              do(x,dx,dnx,pprint)@>
-                x = x.pkgIncluded = null # x.pkgIncluded.DynmodPackage
-                x = dx x, /pkg|mod|Date/
-                # pprint (k for k of x)
-              do(x,dx,dnx,pprint)@>
-                x = x.pkgInfo = x.pkgInfo.dist.pkgIncluded.DynmodPackage.pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0].pkgInfo.lineage.parents[0] # = null # x.pkgIncluded.DynmodPackage
-                x = dx x, /mod|lin|ver|Date|pkg[ACGS]|pkgFork|pkg..do|console/
-                do(x,dx,dnx,pprint)@>
-                  x = x.pkgInfo.version
-                  # x = dx x, /mai|lic|lin/
-                  # pprint x
-              do(x,dx,dnx,pprint)@>
-                x = x.methods = x.methods.has # = null # x.pkgIncluded.DynmodPackage
-                # x = dx x, /pkg|mod|Date/
-                pprint (k for k of x)
-              pprint x
-              # pprint checksum(x).toString(16)
-              pprint @toJsonUnstable(x, options)
-              pprint @fromJson(@toJsonUnstable(x, options), options)
-              # pprint checksum(@fromJson(@toJsonUnstable(x, options), options)).toString(16)
-              # msg += "#{print @toJsonUnstable(@fromJson(@toJsonUnstable(x)))}\n"
-              mmsg = "\n#{mmsg}\n"
-              options.nested = 1
-              @toJson x, options
-            catch error
-              throw "#{mmsg}Nested: " + error
-      # throw "Conversion to JSON introduced geometry error"
-      r = @GoodOl.toJson x, options
-      unless h1 is checksum(@fromJson(r, options))
-        if h1 is checksum(@GoodOl.fromJson(r, options))
-          throw "Conversion to JSON introduced geometry error, even the old version failed, however problem might be in the expansion function"
-        else
-          msg = ""
-          throw "#{msg}Conversion to JSON introduced geometry error, even the old version failed; problem should not be in the expansion function"
-      else
-        throw "Only the old toJSON version worked!"
+      throw "Conversion to JSON introduced a data geometry error"
     r
 toJsonNoCopies:
   (x)@>
