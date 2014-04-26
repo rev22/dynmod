@@ -11,7 +11,7 @@ module.exports =
       @modExtend(@methods).modMixin fs: @require 'fs'
   pkgIncluded:
     DynmodPackage:
-      dynmodPackageRegister.load 'DynmodPackage'
+      dynmodArchive.load 'DynmodPackage'
   JSON: global.JSON
   global: global.global
   require: global.require
@@ -21,7 +21,7 @@ module.exports =
   saveForNodejs:
     true
   NodejsLoader:
-    dynmodPackageRegister.load 'NodejsLoader'
+    dynmodArchive.load 'NodejsLoader'
   Buffer: global.Buffer
   dotCoffee: ".coffee"
   loadFile:
@@ -105,7 +105,7 @@ module.exports =
     
       # now we are able to load dynmod json module files
     
-      @global.dynmodPackageRegister =
+      @global.dynmodArchive =
         load: loadRefcoffeePkg
 
       unless options?.coffeOnly
@@ -113,30 +113,30 @@ module.exports =
         dynmodJson = loadRefcoffeePkg "DynmodJson"
         dynmodJson = pkg.pkgInclude pkg, target: dynmodJson
     
-      global.dynmodPackageRegister =
+      global.dynmodArchive =
         load: loadRefcoffeePkg
     
-      # packageRegister = loadJsonPkg "SimpleDirectoryPackageRegister"
-      # packageRegister = loadRefcoffeePkg "SimpleDirectoryPackageRegister"
+      # dynmodArchive = loadJsonPkg "SimpleDirectoryPackageRegister"
+      # dynmodArchive = loadRefcoffeePkg "SimpleDirectoryPackageRegister"
       if @coffeeOnly
-        packageRegister = @
+        dynmodArchive = @
       else
-        packageRegister = loadRefcoffeePkg "CoffeeJsonPackageRegister"
-      # packageRegister.dynmodJson = dynmodJson
-      packageRegister = pkg.pkgInclude pkg, target: packageRegister
+        dynmodArchive = loadRefcoffeePkg "CoffeeJsonPackageRegister"
+      # dynmodArchive.dynmodJson = dynmodJson
+      dynmodArchive = pkg.pkgInclude pkg, target: dynmodArchive
       options.dir = jDir
-      packageRegister = packageRegister.modCreate options
+      dynmodArchive = dynmodArchive.modCreate options
     
-      @global.dynmodPackageRegister = packageRegister
+      @global.dynmodArchive = dynmodArchive
     
       # { dynmod }  = require './dynmod'
-      { dynmod } = packageRegister.load "DynmodCore"
+      { dynmod } = dynmodArchive.load "DynmodCore"
     
-      { pkg, dynmod, dynmodJson, loadJsonPkg, loadRefcoffeePkg, packageRegister }
+      { pkg, dynmod, dynmodJson, loadJsonPkg, loadRefcoffeePkg, dynmodArchive }
   dynmodJson:
-    dynmodPackageRegister.load 'DynmodJson'
+    dynmodArchive.load 'DynmodJson'
   dynmodPrinter:
-    dynmodPackageRegister.load 'DynmodPrinter'
+    dynmodArchive.load 'DynmodPrinter'
   methods:
     has:
       (name)@> @fs.existsSync("#{@dir}/#{name}.json")

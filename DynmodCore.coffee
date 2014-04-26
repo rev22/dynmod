@@ -5,7 +5,7 @@ pkgInfo:
   license: "MIT"
 pkgIncluded:
   DynmodPackage:
-    dynmodPackageRegister.load 'DynmodPackage'
+    dynmodArchive.load 'DynmodPackage'
 dynmod:
   modClone:
     @> @modExtend()

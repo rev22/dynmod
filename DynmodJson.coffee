@@ -226,11 +226,11 @@ toJsonUnstable:
     delete xx.x[vid] for xx in vis # Remove visit tokens
     r
 JsDigraph:
-  dynmodPackageRegister.load 'JsDigraph'
+  dynmodArchive.load 'JsDigraph'
 DynmodPrinter:
-  dynmodPackageRegister.load 'DynmodPrinter'
+  dynmodArchive.load 'DynmodPrinter'
 DynmodCore:
-  dynmodPackageRegister.load 'DynmodCore'
+  dynmodArchive.load 'DynmodCore'
 toJson:
   (x, options)@>
     dx = (a, rx)->
@@ -326,4 +326,4 @@ wrapUnknown:
   #   @nodejsModules = r
 pkgIncluded:
   DynmodPackage:
-    dynmodPackageRegister.load 'DynmodPackage'
+    dynmodArchive.load 'DynmodPackage'

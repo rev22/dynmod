@@ -5,7 +5,7 @@ pkgInfo:
   license: "MIT"
 pkgIncluded:
   DynmodPackage:
-    dynmodPackageRegister.load 'DynmodPackage'
+    dynmodArchive.load 'DynmodPackage'
 Array: Array
 RegExp: RegExp
 columns:
@@ -95,7 +95,7 @@ print:
       else
         l = [ ]
         if @symbolicPackages and depth > 1 and (packageVersion = x.pkgInfo?.version)?
-          return ind + "dynmodPackageRegister.load '" + packageVersion.replace(/\ .*/, "") + "'"
+          return ind + "dynmodArchive.load '" + packageVersion.replace(/\ .*/, "") + "'"
         ind = ""
         unless (!prev? or typeof prev.x is "object" and !@Array.isArray prev.x)
           l = [ "do->" ]

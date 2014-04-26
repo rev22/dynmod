@@ -1,19 +1,19 @@
 # Copyright (c) 2014 Michele Bini
 # License: MIT
 
-# This how you can bootstrap the package register and load other Dynmod modules
+# This how you can bootstrap the package archive and load other Dynmod modules
 
 dir = './'
 
 global.require = require
 global[x] = require x for x in 'fs path'.split ' '
   
-reg = global.dynmodPackageRegister =
+global.dynmodArchive = archive =
   dir: dir
   require: require
   load: (n)@>
     @require "#{@dir}#{n}.coffee"
 
-packageRegister = reg.load "CoffeePackageRegister"
+archive = archive.load "CoffeePackageRegister"
 
-return module.exports = { pkg, dynmod, dynmodJson, loadJsonPkg, loadRefcoffeePkg, packageRegister } = packageRegister.bootstrap { dir }
+return module.exports = { pkg, dynmod, dynmodJson, loadJsonPkg, loadRefcoffeePkg, dynmodArchive } = archive.bootstrap { dir }
